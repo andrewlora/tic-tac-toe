@@ -10,27 +10,23 @@ const Board = ({
   currentSquares,
   statusBoard,
 }) => {
-  const setBoard = () => {
-    let rows = board.map((row, index) => {
-      let squares = row.map((square) => {
-        return (
-          <Square
-            key={square.id}
-            dataIndex={square.id}
-            value={currentSquares[square.id]}
-            onPlay={handlePlay}
-          />
-        );
-      });
+  const drawBoard = board.map((row, index) => {
+    let squares = row.map((square) => {
       return (
-        <div key={index} className="row">
-          {squares}
-        </div>
+        <Square
+          key={square.id}
+          dataIndex={square.id}
+          value={currentSquares[square.id]}
+          onPlay={handlePlay}
+        />
       );
     });
-    return rows;
-  };
-  let drawBoard = setBoard();
+    return (
+      <div key={index} className="row">
+        {squares}
+      </div>
+    );
+  });
 
   return (
     <div className="board">
