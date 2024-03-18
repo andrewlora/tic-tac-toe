@@ -1,37 +1,58 @@
+import { useState } from "react";
 import "./App.css";
 import Square from "./components/Square/Square";
+import { board, squares } from "./utils/utils";
 
 const App = () => {
+  const [squaresData, setSquaresData] = useState(squares);
+  const [turnX, setTurnX] = useState(true);
+
   const handleSquareClick = (event) => {
-    console.log(event.target.getAttribute("data-index"));
+    let index = Number(event.target.getAttribute("data-index"));
+    if (!squaresData[index]) {
+      setSquaresData(
+        squaresData.map((square, i) => {
+          if (i === index) {
+            return turnX ? "X" : "O";
+          }
+          return square;
+        })
+      );
+      setTurnX(!turnX);
+    }
   };
 
-  const drawBoard = () => {
-    let keySquares = 0;
-    const rows = [1, 2, 3].map((row) => {
-      const squares = [1, 2, 3].map(() => {
-        keySquares++;
+  const setBoard = () => {
+    let rows = board.map((row, index) => {
+      let squares = row.map((square) => {
         return (
           <Square
-            key={keySquares}
-            dataIndex={keySquares}
+            key={square.id}
+            dataIndex={square.id}
+            value={squaresData[square.id]}
             onClick={handleSquareClick}
           />
         );
       });
       return (
-        <div key={row} className="row">
+        <div key={index} className="row">
           {squares}
         </div>
       );
     });
     return rows;
   };
-  let board = drawBoard();
+  let drawBoard = setBoard();
+  let checkNextMove = () => {
+    return turnX ? "Next player: X" : "Next player: O";
+  };
+  let nextMove = checkNextMove();
 
   return (
     <div className="App">
-      <div className="wrapper">{board}</div>
+      {console.log("inside App")}
+      <div className="status">{nextMove}</div>
+      <div className="wrapper">{drawBoard}</div>
     </div>
   );
 };
