@@ -1,9 +1,8 @@
 import React from "react";
-import "./Square.css";
-const Square = ({ onClick, dataIndex, value }) => {
+const Square = ({ onPlay, dataIndex, value }) => {
   return (
     <div className="square">
-      <button data-index={dataIndex} onClick={onClick}>
+      <button data-index={dataIndex} onClick={onPlay}>
         {value}
       </button>
     </div>

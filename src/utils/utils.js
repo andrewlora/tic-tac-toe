@@ -3,7 +3,7 @@ function getSquares() {
   for (let i = 0; i < 9; i++) {
     squares[i] = null;
   }
-  return squares;
+  return [squares];
 }
 let squares = getSquares();
 function getBoard() {
