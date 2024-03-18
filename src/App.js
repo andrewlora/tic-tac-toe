@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Square from "./components/Square/Square";
-import { board, squares } from "./utils/utils";
+import { board, getStatusBoard, squares } from "./utils/utils";
 
 const App = () => {
   const [squaresData, setSquaresData] = useState(squares);
@@ -9,7 +9,7 @@ const App = () => {
 
   const handleSquareClick = (event) => {
     let index = Number(event.target.getAttribute("data-index"));
-    if (!squaresData[index]) {
+    if (!squaresData[index] && !statusBoard.win) {
       setSquaresData(
         squaresData.map((square, i) => {
           if (i === index) {
@@ -43,15 +43,11 @@ const App = () => {
     return rows;
   };
   let drawBoard = setBoard();
-  let checkNextMove = () => {
-    return turnX ? "Next player: X" : "Next player: O";
-  };
-  let nextMove = checkNextMove();
+  let statusBoard = getStatusBoard(squaresData, turnX);
 
   return (
     <div className="App">
-      {console.log("inside App")}
-      <div className="status">{nextMove}</div>
+      <div className="status">{statusBoard.message}</div>
       <div className="wrapper">{drawBoard}</div>
     </div>
   );
